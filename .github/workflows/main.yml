@@ -1,0 +1,8 @@
+name: Github Actions
+
+on:
+  push:
+    branches:
+      -  '**'
+    tags:
+      -  '**'
