@@ -16,9 +16,9 @@ jobs:
 
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "TAG_VERSION=0.0.1" >> $GITHUB_STATE
+          echo "TAG_NAME=v0.0.1" >> $GITHUB_OUTPUT
 
   build:
     needs: bump
@@ -52,4 +52,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ needs.bump.outputs.tag_version }}
+          tags: ${{ needs.bump.outputs.TAG_NAME }}
