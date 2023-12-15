@@ -40,3 +40,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
+          tags: |
+            eonyong/node:latest
+            eonyong/node:{{ version }}
+            eonyong/node:{{ major }}.{{ minor }}
