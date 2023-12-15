@@ -55,5 +55,5 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ needs.bump.outputs.TAG_NAME }}
+          tags: "eonyong.jung"
     
