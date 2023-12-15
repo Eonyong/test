@@ -17,6 +17,12 @@ jobs:
       - 
         name: Set Environment Variables
         run: echo "VERSION=0.0.1" >> $GITHUB_ENV
+      -
+        name: Save state
+        run: echo "::save-state name={name}::{value}"
+      -
+        name: Set output
+        run: echo "::set-output name={name}::{value}"
       - 
         name: Bump version and push tag
         id: tag_version
