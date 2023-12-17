@@ -27,7 +27,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
 
     -
-    	# id는 해당 step에 대한 고유한 이름을 정의하는 것이다. 이후 작업에서 id를 사용하여 이전 단계의 결과를 참조할 수 있다. with는 액션에 전달되는 입력 매개변수를 정의래준다. 아래의 경우에는 Dokcer 이미지 이름과 태그를 semVer 형색으로 정의하고 있음.
+    # id는 해당 step에 대한 고유한 이름을 정의하는 것이다. 이후 작업에서 id를 사용하여 이전 단계의 결과를 참조할 수 있다. with는 액션에 전달되는 입력 매개변수를 정의래준다. 아래의 경우에는 Dokcer 이미지 이름과 태그를 semVer 형색으로 정의하고 있음.
      name: Docker meta
      id: docker_meta
      uses: crazy-max/ghaction-docker-meta@v1
