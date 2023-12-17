@@ -6,10 +6,6 @@ LABEL "MAINTAINER"="eonyong.jung <unjoo94@naver.com>"
 RUN yarn install
 RUN yarn create react-app todos --template typescript
 
-WORKDIR /app
-
-COPY ./todos /app
-
 RUN yarn build
 
 
