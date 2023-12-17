@@ -8,7 +8,7 @@ RUN yarn create react-app todos --template typescript
 
 WORKDIR /app
 
-COPY . .
+COPY ./todos /app
 
 RUN yarn build
 
