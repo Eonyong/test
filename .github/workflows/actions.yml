@@ -1,5 +1,7 @@
 name: GitHub Actions
 
+# 트리거 설정
+# - 아래의 설정은 push가 되었을 때, 브랜치와 태그에 대한 푸시 이벤트 트리거를 설정 ('**'은 모든 조건에 대해 이벤트 트리거 설정)
 on:
   push:
     branches:
@@ -7,53 +9,46 @@ on:
     tags:
       - '**'
 
+# 작업을 진행하는 구문
 jobs:
-  bump:
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-
-      -
-        name: Bump version and push tag
-        id: tag_version
-        run: |
-          echo "TAG_NAME=v0.0.1" >> $GITHUB_OUTPUT
-
-
+  # 작업의 이름 'build'
   build:
-    needs: bump
+    # 작업 환경을 구성하는 구문 (ubuntu 환경에서 작업 실행)
     runs-on: ubuntu-latest
+		# 작업 순서를 차례대로 작성하는 구문
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    # name은 각 스텝의 이름을 명시해준다. uses의 경우에는 <저상소>/<기능>으로 저장소에 있는 기능 중 하나를 사용하도록 지정
+    - 
+      name: Checkout
+      uses: actions/checkout@v4
+      
+    - 
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+			#	id는 해당 step에 대한 고유한 이름을 정의하는 것이다. 이후 작업에서 id를 사용하여 이전 단계의 결과를 참조할 수 있다. with는 액션에 전달되는 입력 매개변수를 정의래준다. 아래의 경우에는 Dokcer 이미지 이름과 태그를 semVer 형색으로 정의하고 있음.
+    -
+      name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v1
+      with:
+        images: eonyong/node
+        tag-semver: |
+          {{version}}
+          {{major}}.{{minor}}
+          
+    -
+      name: Login to DockerHub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: eonyong/node
-          tag-semver: |
-            {{version}}
-            {{major}}.{{minor}}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          platforms: linux/amd64
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
-    
+    -
+      name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        platforms: linux/amd64
+        push: true
+        tags: eonyong.jung/docker:latest
