@@ -3,16 +3,31 @@ FROM node:latest as builder
 
 LABEL "MAINTAINER"="eonyong.jung <unjoo94@naver.com>"
 
+WORKDIR /app
+
+# Copy package.json and yarn.lock to ensure correct versions are installed
+COPY package.json yarn.lock ./
+
+# Install dependencies
 RUN yarn install
+
+# Copy the entire application
+COPY . .
+
+# Create React App with TypeScript
 RUN yarn create react-app todos --template typescript
 
-RUN yarn build
+# Change working directory to the newly created React app
+WORKDIR /app/todos
 
+# Build the React app
+RUN yarn build
 
 # Stage 2: Deploy with Nginx
 FROM nginx:alpine
 
-COPY --from=builder /app/build /usr/share/nginx/html
+# Copy the built files from the previous stage
+COPY --from=builder /app/todos/build /usr/share/nginx/html
 
 EXPOSE 80
 
