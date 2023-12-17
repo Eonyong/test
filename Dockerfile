@@ -3,12 +3,15 @@ FROM node:latest as builder
 
 LABEL "MAINTAINER"="eonyong.jung <unjoo94@naver.com>"
 
+RUN yarn install
+RUN yarn create react-app todos --template typescript
+
 WORKDIR /app
 
 COPY . .
 
-RUN yarn install
 RUN yarn build
+
 
 # Stage 2: Deploy with Nginx
 FROM nginx:alpine
