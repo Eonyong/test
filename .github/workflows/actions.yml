@@ -52,4 +52,4 @@ jobs:
         file: ./Dockerfile
         platforms: linux/amd64
         push: true
-        tags: eonyong.jung/docker:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker:latest
