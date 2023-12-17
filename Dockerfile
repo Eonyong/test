@@ -5,9 +5,6 @@ LABEL "MAINTAINER"="eonyong.jung <unjoo94@naver.com>"
 
 WORKDIR /app
 
-# Copy package.json and yarn.lock to ensure correct versions are installed
-# COPY package.json yarn.lock ./
-
 # Install dependencies
 RUN yarn install
 
@@ -17,7 +14,10 @@ COPY . .
 # Create React App with TypeScript
 RUN yarn create react-app todos --template typescript
 
-RUN echo "ls"
+RUN echo ls
+
+# Copy package.json and yarn.lock to ensure correct versions are installed
+COPY package.json yarn.lock ./
 
 # Change working directory to the newly created React app
 WORKDIR /app/todos
