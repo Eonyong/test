@@ -17,7 +17,7 @@ RUN yarn create react-app todos --template typescript
 RUN echo ls
 
 # Copy package.json and yarn.lock to ensure correct versions are installed
-COPY package.json yarn.lock ./
+COPY /app/todos/package.json /app/todos/yarn.lock ./
 
 # Change working directory to the newly created React app
 WORKDIR /app/todos
